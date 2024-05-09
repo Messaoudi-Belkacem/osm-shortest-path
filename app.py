@@ -3,9 +3,8 @@ from tkinter import ttk
 import osmnx as ox
 from utilities import astar_search, euclidean_distance
 
-
-
-
+color1 = '#2a7fb8'
+color2 = '#709bb8'
 
 def get_state_id(state_name):
 
@@ -55,7 +54,7 @@ def main_code(start, destination):
   # ox.config(use_cache=True, log_console=True)
 
   # # Define the location (for example, a city name or address)
-  # place_name = "New York City, USA"
+  # place_name = "Algeria"
 
   # # Download the street network for the specified location
   # G = ox.graph_from_place(place_name, network_type='drive')
@@ -111,7 +110,15 @@ def create_app_ui():
   # Widgets
   label1 = tk.Label(main_frame, text= "Welcome shortest-path", font=('Roboto', 18))
   label2 = tk.Label(main_frame, text= "Please choose the starting city and the destination city", font=('Roboto', 12))
-  button = tk.Button(main_frame, text="Generate", font=('Roboto', 10), command= main_code(start_combo_box.get(), destenation_combo_box.get()))
+  button = tk.Button(
+    main_frame,
+    text="Generate", 
+    font=('Roboto', 10), 
+    command= main_code(start_combo_box.get(), destenation_combo_box.get()),
+    background=color1,
+    activebackground=color2,
+    border= 0,
+    )
 
   label1.pack(pady=20)
   label2.pack(pady=10)
@@ -122,4 +129,4 @@ def create_app_ui():
 
   root.mainloop()
 
-create_app_ui
+create_app_ui()
