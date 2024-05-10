@@ -9,12 +9,12 @@ color2 = '#709bb8'
 def get_state_id(state_name):
 
   state_ids = {
-    "Adrar": 1,
-    "Chlef": 2,
-    "Guelma": 3,
-    "Oum El Bouaghi": 4,
-    "Souk Ahras": 5,
-    "Batna": 6,
+    "Amizeur": 4112937,
+    "Béjaïa": 2094122,
+    "Boulimat": 425040436,
+    "Oum El Bouaghi": 4469695,
+    "Souk Ahras": 6663208,
+    "Batna": 4224144,
     "Djelfa": 7,
     "Illizi": 8,
     "Oran": 9,
@@ -43,7 +43,7 @@ def get_state_id(state_name):
     "Saïda": 32,
     "Skikda": 33,
     "Tébessa": 34
-}
+  }
 
   if state_name in state_ids:
     return state_ids[state_name]
@@ -51,35 +51,32 @@ def get_state_id(state_name):
     return None
 
 def main_code(start, destination):
-  # ox.config(use_cache=True, log_console=True)
+  ox.config(use_cache=True, log_console=True)
 
-  # # Define the location (for example, a city name or address)
-  # place_name = "Algeria"
+  place_name = "Béjaïa ,Algeria"
 
-  # # Download the street network for the specified location
-  # G = ox.graph_from_place(place_name, network_type='drive')
-  # G = ox.add_edge_speeds(G)
-  # G = ox.add_edge_travel_times(G)
+  G = ox.graph_from_place(place_name, network_type='all')
+  G = ox.add_edge_speeds(G)
+  G = ox.add_edge_travel_times(G)
 
-  # number_of_nodes = G.number_of_nodes()
-  # print(f"number of nodes is {number_of_nodes}")
+  number_of_nodes = G.number_of_nodes()
+  print(f"number of nodes is {number_of_nodes}")
 
-  # # Plot the graph
-  # ox.plot_graph(G)
+  ox.plot_graph(G)
 
   start_node = get_state_id(start)
   goal_node = get_state_id(destination)
 
-  print(start)
-  print(destination)
+  print(start_node)
+  print(goal_node)
 
-  # shortest_path = astar_search(G, start_node, goal_node, euclidean_distance)
-  # print(shortest_path)
+  shortest_path = astar_search(G, start_node, goal_node, euclidean_distance)
+  print(shortest_path)
 
 def create_app_ui():
 
   states = [
-      "Adrar", "Chlef", "Guelma", "Oum El Bouaghi", "Souk Ahras",
+      "Amizeur", "Béjaïa", "Boulimat", "Oum El Bouaghi", "Souk Ahras",
       "Batna", "Djelfa", "Illizi", "Oran", "Tamanrasset",
       "Béchar", "El Bayadh", "Khenchela", "Ouargla", "Tindouf",
       "Biskra", "El Oued", "Laghouat", "Sétif", "Tissemsilt",
@@ -101,10 +98,13 @@ def create_app_ui():
   # ComboBox Row
   combobox_row = tk.Frame(main_frame)
 
+  start_var = tk.StringVar()
+  destenation_var = tk.StringVar()
+
   # Create the combo box
-  start_combo_box = ttk.Combobox(combobox_row, values=states)
+  start_combo_box = ttk.Combobox(combobox_row, values=states, textvariable= start_var)
   start_combo_box.current(0)
-  destenation_combo_box = ttk.Combobox(combobox_row, values=states)
+  destenation_combo_box = ttk.Combobox(combobox_row, values=states, textvariable= destenation_var)
   destenation_combo_box.current(0)
 
   # Widgets
@@ -114,7 +114,7 @@ def create_app_ui():
     main_frame,
     text="Generate", 
     font=('Roboto', 10), 
-    command= main_code(start_combo_box.get(), destenation_combo_box.get()),
+    command= lambda: main_code(start_var.get(), destenation_var.get()),
     background=color1,
     activebackground=color2,
     border= 0,
